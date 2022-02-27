@@ -1,0 +1,28 @@
+{%extends "base.html"%} {%block title%} Dashboard {%endblock%} {% block
+content%}
+<!-- Admin dashboard showing users and emails along with date account was created -->
+<h1 align="center">Hello Admin Here is your Dashboard</h1>
+
+<div class="usersList" align="center">
+    <div class="list-group"></div>
+  
+    {%for users in users%}
+  
+    <a
+      href="/chirps/{{users.username}}"
+      class="list-group-item list-group-item-action"
+      aria-current="true"
+    >
+    <div class="username">Username: <span>{{users.username}}</span> </div>
+    <div class="username">Email: <span>{{users.email}}</span> </div>
+    <div class="username">Date Created: <span>{{users.date_created}}</span> </div>
+    </a>
+    <br>
+  
+    {%endfor%}
+  </div>
+
+  
+</div>
+
+{%endblock%}

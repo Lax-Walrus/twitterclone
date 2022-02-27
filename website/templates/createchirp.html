@@ -1,0 +1,27 @@
+{%extends "base.html"%} {%block title%}create a chirple{%endblock%} {%block
+header%} {{username}}'s Chirp's {endblock} {%block content%}
+<!-- create a chirp form -->
+<h1 align="center">Make a Chirp!</h1>
+<form method="POST">
+  <textarea
+    name="text"
+    id="text"
+    class="form-control"
+    cols="30"
+    rows="10"
+  ></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-lg btn-primary">CHIRP!</button>
+  </div>
+</form>
+
+<br />
+<!-- home button -->
+<div align="center">
+  <a href="/home"
+    ><button type="submit" class="btn btn-lg btn-secondary">cancel</button></a
+  >
+</div>
+
+{%endblock%} {%endblock%}
