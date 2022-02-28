@@ -2,8 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 # creates database
 db = SQLAlchemy()

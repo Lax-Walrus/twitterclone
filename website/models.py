@@ -28,11 +28,11 @@ class Chirps(db.Model):
         'user.id', ondelete="CASCADE"), nullable=False)
 
     comment = db.relationship(
-        "Comment", backref="chirps", passive_deletes=True)
+        "Comment", backref="chirps", cascade="all,delete-orphan")
     like = db.relationship(
-        "Like", backref="chirps", passive_deletes=True)
-        
-        
+        "Like", backref="chirps", cascade="all,delete-orphan")
+
+
 # comment model
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)

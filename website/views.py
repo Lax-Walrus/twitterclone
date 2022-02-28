@@ -1,8 +1,9 @@
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
-from flask_login import login_required, current_user
+from flask_login import login_user, logout_user, login_required, current_user
 from .models import Chirps, User, Comment, Like
 from . import db
+from werkzeug.security import generate_password_hash
 
 
 views = Blueprint("views", __name__)
@@ -66,6 +67,7 @@ def deletechirp(id):
 @views.route('/chirps/<username>')
 @login_required
 def profiles(username):
+
     user = User.query.filter_by(username=username).first()
     # looks if user exists
     if not user:
@@ -83,7 +85,7 @@ def profiles(username):
 @login_required
 def admindashboard():
     # checks if user is admin and shows if true
-    if current_user == "admin":
+    if current_user.isAdmin == True:
 
         clients = User.query.all()
         return render_template('dashboard.html', users=clients)

@@ -8,6 +8,46 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 authenticate = Blueprint("authenticate", __name__)
 
+# updated route
+
+
+@authenticate.route("/updateUser/<username>", methods=["POST", "GET"])
+@login_required
+def userupdate(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        flash("no user found", category="error")
+        return redirect(url_for("views.home"))
+
+    else:
+
+        newusername = request.form.get("username")
+        password1 = request.form.get("password1")
+        password2 = request.form.get("password2")
+
+        usernameexsits = User.query.filter_by(username=newusername).first()
+
+        if usernameexsits:
+            flash("username already taken", category="error")
+            return redirect(url_for("views.chirps"))
+
+        elif password1 != password2:
+            flash('passwords do not match', category="error")
+            return redirect(url_for("views.chirps"))
+        elif len(newusername) < 2:
+            flash("username is too short", category="error")
+            return redirect(url_for("views.chirps"))
+        elif len(password1) < 6:
+            flash("password is too short", category="error")
+            return redirect(url_for("views.chirps"))
+        else:
+            user.username = newusername
+            user.password = generate_password_hash(
+                password1, method='sha256')
+            db.session.commit()
+            flash("updated account successfully", category="success")
+            return redirect(url_for('views.home'))
+
 # login route
 
 
@@ -41,6 +81,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("views.home"))
+
 
 # sign up route
 
