@@ -132,7 +132,7 @@ def signup():
 def createAdmin():
 
     # if admin already exists will not let another one be created
-    usernameexists = User.query.filter_by(username="admin").first()
+    usernameexists = User.query.filter_by(isAdmin=True).first()
 
     if usernameexists:
         flash("admin already exsists", category="error")
