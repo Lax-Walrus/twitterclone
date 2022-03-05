@@ -1,12 +1,14 @@
-from sqlalchemy import PrimaryKeyConstraint
-from . import db
-from flask_login import UserMixin
+""" these are the models of the tables in the database"""
 from sqlalchemy.sql import func
+from flask_login import UserMixin
+from . import db
 
-# user model usermixen creates an is authenticated boolean and login method to handle login and logout easier
+
+#  usermixen creates an is authenticated boolean/login
 
 
 class User(db.Model, UserMixin):
+    """ user table model"""
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     username = db.Column(db.String(150), unique=True)
@@ -21,6 +23,7 @@ class User(db.Model, UserMixin):
 
 
 class Chirps(db.Model):
+    """ Chirps table model """
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
@@ -35,6 +38,7 @@ class Chirps(db.Model):
 
 # comment model
 class Comment(db.Model):
+    """Comment table model"""
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
@@ -46,6 +50,7 @@ class Comment(db.Model):
 
 
 class Like(db.Model):
+    """ like table model"""
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.Integer, db.ForeignKey(
         'user.id', ondelete="CASCADE"), nullable=False)

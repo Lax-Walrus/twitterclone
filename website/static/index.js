@@ -15,3 +15,9 @@ function like(chirpsId) {
     })
     .catch((e) => alert("Could not like post."), console.log(e));
 }
+
+function comment(commentId) {
+  const commentData = document.getElementById(`commentId-${commentId}`);
+
+  fetch(`/createcomment/${commentId}`, {method: "POST"}).then((res)=> res.json()).then((data)=>{console.log(data)})
+}

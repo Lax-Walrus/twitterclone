@@ -1,9 +1,8 @@
-
+""" controls the routes for going page to page """
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_required, current_user
 from .models import Chirps, User, Comment, Like
 from . import db
-from werkzeug.security import generate_password_hash
 
 
 views = Blueprint("views", __name__)
@@ -15,6 +14,7 @@ views = Blueprint("views", __name__)
 @views.route("/home")
 @login_required
 def home():
+    """ homescreen page """
     posts = Chirps.query.all()
     return render_template("home.html",  user=current_user, chirps=posts)
 
@@ -23,7 +23,8 @@ def home():
 
 @views.route("/createchirp", methods=["GET", "POST"])
 @login_required
-def createPost():
+def create_post():
+    """ creates the post and adds to database"""
     # checks the createchirps.form if text is empty throws error
     if request.method == 'POST':
         text = request.form.get('text')
@@ -43,9 +44,10 @@ def createPost():
 
 @views.route("/deletechirp/<id>")
 @login_required
-def deletechirp(id):
-    # grabs the chirp/post from the database that matches the id of of the chirp by passing the id from the home.html or chrips.html
-    post = Chirps.query.filter_by(id=id).first()
+def delete_chirp(_id):
+    """ deletes the selected chirp"""
+    # grabs the chirp/post from the database
+    post = Chirps.query.filter_by(id=_id).first()
 
     # checks if the chirp/post exisists and if the user matches id matches the post author
     if not post:
@@ -67,6 +69,7 @@ def deletechirp(id):
 @views.route('/chirps/<username>')
 @login_required
 def profiles(username):
+    """ takes you to the selected user's profile"""
 
     user = User.query.filter_by(username=username).first()
     # looks if user exists
@@ -83,22 +86,24 @@ def profiles(username):
 
 @views.route('/dashboard')
 @login_required
-def admindashboard():
+def admin_dashboard():
+    """takes admin to dashbordpage"""
     # checks if user is admin and shows if true
-    if current_user.isAdmin == True:
+    if current_user.isAdmin:
 
         clients = User.query.all()
         return render_template('dashboard.html', users=clients)
     # redirects user to home if not admin
-    else:
-        flash("non-admin accounts cannot view this page", category="error")
-        return redirect(url_for("views.home"))
+
+    flash("non-admin accounts cannot view this page", category="error")
+    return redirect(url_for("views.home"))
 
 
 # createcomment route
 @views.route('/createcomment/<chirps_id>', methods=["POST"])
 @login_required
-def createcomment(chirps_id):
+def create_comment(chirps_id):
+    """ creates a comment on the post"""
     text = request.form.get("text")
     # checks in comment form if there is data chripdiv.html
     if not text:
@@ -124,7 +129,8 @@ def createcomment(chirps_id):
 # delete comment route
 @views.route("/deletecomment/<comment_id>")
 @login_required
-def deletecomment(comment_id):
+def delete_comment(comment_id):
+    """ deletes the comment"""
     comment = Comment.query.filter_by(id=comment_id).first()
 
     if not comment:
@@ -144,20 +150,23 @@ def deletecomment(comment_id):
 @views.route('/likechirp/<chirp_id>', methods=["POST"])
 @login_required
 def like(chirp_id):
+    """adds like to the post """
     post = Chirps.query.filter_by(id=chirp_id).first()
-    like = Like.query.filter_by(
+    thumbs_up = Like.query.filter_by(
         author=current_user.id, chirp_id=chirp_id).first()
 
     if not post:
         return jsonify({"error": "Post does not exist"}, 400)
 
-    elif like:
+    if thumbs_up:
         db.session.delete(like)
         db.session.commit()
 
     else:
-        like = Like(author=current_user.id, chirp_id=chirp_id)
-        db.session.add(like)
+        thumbs_up = Like(author=current_user.id, chirp_id=chirp_id)
+        db.session.add(thumbs_up)
         db.session.commit()
 
-    return jsonify({"likes": len(post.like), "liked": current_user.id in map(lambda x: x.author, post.like)})
+    return jsonify(
+        {"likes": len(post.like), "liked":
+         current_user.id in map(lambda x: x.author, post.like)})

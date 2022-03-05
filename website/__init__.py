@@ -1,6 +1,8 @@
+
+""" starts/creates connection to database starts flask """
+from os import path
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
 from flask_login import LoginManager
 
 
@@ -9,25 +11,24 @@ db = SQLAlchemy()
 DB_NAME = "database.db"
 
 
-def createApp():
+def create_app():
+    """creates the flask app and starts/creates the database"""
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "notsosecretkey"
     # has the app use the created database
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    # creates blue pritn of the view and authenticate paths
+    # creates blue prints of the view and authenticate paths
     from .views import views
-    app.register_blueprint(views, url_prefix="/")
+    from .auth import authenticate
 
-    from .authenticate import authenticate
+    app.register_blueprint(views, url_prefix="/")
     app.register_blueprint(authenticate, url_prefix="/")
 
     # imports the model of the users
-
-    from .models import User, Chirps, Comment, Like
-
-    createDatabase(app)
+    from .models import User
+    create_database(app)
 
     # controls the login authentication for the users
 
@@ -38,13 +39,14 @@ def createApp():
     # grab info based on the id of the user. stores ID in the session
 
     @login_manager.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
+    def load_user(_id):
+        return User.query.get(int(_id))
 
     return app
 
 
-def createDatabase(app):
+def create_database(app):
+    """checks if database already exists"""
     # checks if database already exists
     if not path.exists("website/" + DB_NAME):
         # starts the database
