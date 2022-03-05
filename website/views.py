@@ -44,10 +44,11 @@ def create_post():
 
 @views.route("/deletechirp/<id>")
 @login_required
-def delete_chirp(_id):
+def delete_chirp(id):
     """ deletes the selected chirp"""
     # grabs the chirp/post from the database
-    post = Chirps.query.filter_by(id=_id).first()
+
+    post = Chirps.query.filter_by(id=id).first()
 
     # checks if the chirp/post exisists and if the user matches id matches the post author
     if not post:
