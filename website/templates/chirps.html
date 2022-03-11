@@ -1,142 +1,129 @@
 {%extends "base.html"%} {%block title%}{{username}}'s chirps {%endblock%}
-
-{%block content%}
-{%if current_user.username == username%}
-  <div class="container mt-3">
-    <div class="row">
-    <div class="col-3">
-      <aside class="profileInfo">
-        
-          <h3 align="center">update profile</h3>
-          <form class="formclass" method="POST"
-          action="/updateUser/{{username}}">
-          <div class="form-group">
-          
-        
-            <label for="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              class="form-control"
-              placeholder="new username"
-            />
-        
-            <label for="password1">Password</label>
-            <input
-              type="password"
-              id="password1"
-              name="password1"
-              class="form-control"
-              placeholder="new password"
-            />
-        
-            <label for="password2"> Confirm Password</label>
-            <input
-              type="password"
-              id="password2"
-              name="password2"
-              class="form-control"
-              placeholder="confrim new password"
-            />
-        
-            <br />
-            <div align="center">
-              <button class="btn btn-primary" type="submit">Update</button>
-            </div>
-          </div>
-          
-        </form>
-      </div>
-      </aside>
+{%block content%} {%if current_user.username == username%}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-3"><aside class="profileInfo">
+      <h3 align="center">update profile</h3>
+      <form class="formclass" method="POST" action="/updateUser/{{username}}">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-control"
+            placeholder="new username"
+          />
     
-      
-    <div class="col-9">
-  
-        <h1 align="center">My Profile</h1>
+          <label for="password1">Password</label>
+          <input
+            type="password"
+            id="password1"
+            name="password1"
+            class="form-control"
+            placeholder="new password"
+          />
     
-        <!-- chirps model created to be reused for the profile page and home screen -->
-    
-        <div id="chirps">
-        {%for chirps in chirps%}
-        <div class="card ">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <h5>
-            chirped by:
-            <span
-              ><a href="/chirps/{{chirps.user.username}}" class="chirpname">
-                {{chirps.user.username}}</a
-              ></span
-            >
-          </h5>
-    
-          <!-- delete button -->
-          <!-- if statement to only show on users posts -->
-          
-          <div>
-            <span id="likes-count-{{chirps.id}}">{{chirps.like|length}}</span>
-            {%if user.id in  chirps.like|map(attribute="author")|list%}
-            <i
-              class="fas fa-thumbs-up"
-              id="like-button-{{chirps.id}}"
-              onclick="like({{chirps.id}})"
-            ></i>
-            {%else%}
-            <i
-            class="far fa-thumbs-up"
-            id="like-button-{{chirps.id}}"
-            onclick="like({{chirps.id}})"
-          ></i>
-            {%endif%}
-    
-            {%if chirps.author == user.id%}
-          <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-sm btn-danger dropdown-toggle"
-              data-bs-toggle="dropdown"
-            ></button>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="/deletechirp/{{chirps.id}}" class="dropdown-item"
-                  >Delete</a
-                >
-              </li>
-            </ul>
-          </div>
-          {%endif%}
-        </div>
-          
-        
-        </div>
-    
-        <!-- Chirp text/body -->
-        <div class="card-body">
-          <div class="card-text">
-            <p class="chirptext">{{chirps.text}}</p>
-          </div>
+          <label for="password2"> Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            class="form-control"
+            placeholder="confrim new password"
+          />
     
           <br />
-          <!-- comments in a collapsable div -->
-          <div class="collapse" id="comments-{{chirps.id}}">
-            <div class="card"> 
-              <div class="card-body" id="comments-expanded-{{chirps.id}}">
-               
-                Comments:
-                {%for comment in chirps.comment%}
-                <div class="d-flex justify-content-between align-items-center">
-                  
-                  <div class="commentbody">
-                    Chirped by
-                    <a href="/chirps/{{comment.user.username}}" class="chirpname">
-                      {{comment.user.username}}:
-                    </a>
-                    {{comment.text}}
+          <div align="center">
+            <button class="btn btn-primary" type="submit">Update</button>
+          </div>
+        </div>
+      </form>
+    </aside></div>
+
+    <div class="col-9">
+      <h1 align="center">My Profile</h1>
+      <div id="chirps">
+        {%for chirps in chirps%}
+        <div class="card border-secondary mt-3">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h5>
+              chirped by:
+              <span
+                ><a href="/chirps/{{chirps.user.username}}" class="chirpname">
+                  {{chirps.user.username}}</a
+                ></span
+              >
+            </h5>
+    
+            <!-- delete button -->
+            <!-- if statement to only show on users posts -->
+    
+            <div>
+              <span id="likes-count-{{chirps.id}}">{{chirps.like|length}}</span>
+              {%if user.id in chirps.like|map(attribute="author")|list%}
+              <i
+                class="fas fa-thumbs-up"
+                id="like-button-{{chirps.id}}"
+                onclick="like({{chirps.id}})"
+              ></i>
+              {%else%}
+              <i
+                class="far fa-thumbs-up"
+                id="like-button-{{chirps.id}}"
+                onclick="like({{chirps.id}})"
+              ></i>
+              {%endif%} {%if chirps.author == user.id%}
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                ></button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="/deletechirp/{{chirps.id}}" class="dropdown-item"
+                      >Delete</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              {%endif%}
+            </div>
+          </div>
+    
+          <!-- Chirp text/body -->
+          <div class="card-body">
+            <div class="card-text">
+              <p class="chirptext">{{chirps.text}}</p>
+            </div>
+    
+            <br />
+            <!-- comments in a collapsable div -->
+            <div class="collapse" id="comments-{{chirps.id}}">
+              <div class="card">
+                <div class="card-body" id="comments-expanded-{{chirps.id}}">
+                  Comments: {%for comment in chirps.comment%}
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div class="commentbody">
+                      Chirped by:
+                      <a
+                        href="/chirps/{{comment.user.username}}"
+                        class="chirpname"
+                      >
+                        {{comment.user.username}}:
+                      </a>
+                      {{comment.text}}
                     </div>
     
                     <div class="comment-date">
                       <small class="text-muted">{{comment.date_created}}</small>
-                      {%if chirps.author == user.id or user.id == comment.author%}
+                      {%if chirps.author == user.id or user.id ==
+                      comment.author%}
                       <!-- delete comment button -->
                       <div class="btn-group">
                         <button
@@ -170,7 +157,7 @@
                 data-bs-toggle="collapse"
                 role="button"
               >
-                <small class="chirpname">View {{chirps.comment|length}} Comments</small>
+                <small>View {{chirps.comment|length}} Comments</small>
               </a>
     
               {%else%}
@@ -201,55 +188,32 @@
     
         <br />
         {%endfor%}
-        </div>
-      
-        <!-- create a chirp button -->
-        {%block footer%}
-        <div align="center">
+      </div>
+    
+      <!-- create a chirp button -->
+    
+      <div align="center">
         <a href="/createchirp"
           ><button type="button" class="btn btn-primary btn-lg">
             Create a CHIRP!
           </button></a
         >
-        </div>
-        
-        <br>
-    
-        <div align="center">
-        <a href="/home"
-          ><button type="button" class="btn btn-primary btn-lg">home</button></a
-        >
-        </div>
-        {%endblock%} 
       </div>
-    
-    
+    </div>
     </div>
   </div>
-    
-    
-    
-    
-  
-  
-  
-  
+</div>
 
-    </div>
-  </div>
+{%else%}
 
-  {%else%}
-
-  
-
-  <!-- chirps model created to be reused for the profile page not logged in and home screen -->
-
-
-  <h1 align="center">{{username}}'s posts:</h1>
-  <div id="chirps">
+<!-- chirps model created to be reused for the profile page not logged in and home screen -->
+<h1 align="center">{{username}}'s posts:</h1>
+<div id="chirps">
   {%for chirps in chirps%}
   <div class="card border-secondary mt-3">
-    <div class="card-header d-flex justify-content-between align-items-center">
+    <div
+      class="card-header d-flex justify-content-between align-items-center"
+    >
       <h5>
         chirped by:
         <span
@@ -261,10 +225,10 @@
 
       <!-- delete button -->
       <!-- if statement to only show on users posts -->
-      
+
       <div>
         <span id="likes-count-{{chirps.id}}">{{chirps.like|length}}</span>
-        {%if user.id in  chirps.like|map(attribute="author")|list%}
+        {%if user.id in chirps.like|map(attribute="author")|list%}
         <i
           class="fas fa-thumbs-up"
           id="like-button-{{chirps.id}}"
@@ -272,32 +236,28 @@
         ></i>
         {%else%}
         <i
-        class="far fa-thumbs-up"
-        id="like-button-{{chirps.id}}"
-        onclick="like({{chirps.id}})"
-      ></i>
+          class="far fa-thumbs-up"
+          id="like-button-{{chirps.id}}"
+          onclick="like({{chirps.id}})"
+        ></i>
+        {%endif%} {%if chirps.author == user.id%}
+        <div class="btn-group">
+          <button
+            type="button"
+            class="btn btn-sm btn-danger dropdown-toggle"
+            data-bs-toggle="dropdown"
+          ></button>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="/deletechirp/{{chirps.id}}" class="dropdown-item"
+                >Delete</a
+              >
+            </li>
+          </ul>
+        </div>
         {%endif%}
-
-        {%if chirps.author == user.id%}
-      <div class="btn-group">
-        <button
-          type="button"
-          class="btn btn-sm btn-danger dropdown-toggle"
-          data-bs-toggle="dropdown"
-        ></button>
-        <ul class="dropdown-menu">
-          <li>
-            <a href="/deletechirp/{{chirps.id}}" class="dropdown-item"
-              >Delete</a
-            >
-          </li>
-        </ul>
       </div>
-      {%endif%}
     </div>
-      
-    
-  </div>
 
     <!-- Chirp text/body -->
     <div class="card-body">
@@ -310,98 +270,102 @@
       <div class="collapse" id="comments-{{chirps.id}}">
         <div class="card">
           <div class="card-body" id="comments-expanded-{{chirps.id}}">
-            Comments: 
-            {%for comment in chirps.comment%}
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="commentbody" >
+            Comments: {%for comment in chirps.comment%}
+            <div
+              class="d-flex justify-content-between align-items-center"
+            >
+              <div class="commentbody">
                 Chirped by:
-                <a href="/chirps/{{comment.user.username}}" class="chirpname">
+                <a
+                  href="/chirps/{{comment.user.username}}"
+                  class="chirpname"
+                >
                   {{comment.user.username}}:
                 </a>
                 {{comment.text}}
-                </div>
-
-                <div class="comment-date">
-                  <small class="text-muted">{{comment.date_created}}</small>
-                  {%if chirps.author == user.id or user.id == comment.author%}
-                  <!-- delete comment button -->
-                  <div class="btn-group">
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-danger dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                    ></button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a
-                          href="/deletecomment/{{comment.id}}"
-                          class="dropdown-item"
-                          >Delete</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                  {%endif%}
-                </div>
               </div>
-              {%endfor%}
+
+              <div class="comment-date">
+                <small class="text-muted">{{comment.date_created}}</small>
+                {%if chirps.author == user.id or user.id ==
+                comment.author%}
+                <!-- delete comment button -->
+                <div class="btn-group">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                  ></button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a
+                        href="/deletecomment/{{comment.id}}"
+                        class="dropdown-item"
+                        >Delete</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                {%endif%}
+              </div>
             </div>
+            {%endfor%}
           </div>
         </div>
-        <!-- uncolapse the colapsable div -->
-        <p class="card-text">
-          {%if chirps.comment|length > 0%}
+      </div>
+      <!-- uncolapse the colapsable div -->
+      <p class="card-text">
+        {%if chirps.comment|length > 0%}
 
-          <a
-            href="#comments-{{chirps.id}}"
-            data-bs-toggle="collapse"
-            role="button"
-          >
-            <small>View {{chirps.comment|length}} Comments</small>
-          </a>
-
-          {%else%}
-          <small text-muted> No Comments</small>
-
-          {%endif%}
-        </p>
-        <!-- comment form -->
-        <form
-          method="POST"
-          class="input-group mt-3 mb-3"
-          action="/createcomment/{{chirps.id}}"
+        <a
+          href="#comments-{{chirps.id}}"
+          data-bs-toggle="collapse"
+          role="button"
         >
-          <input
-            type="text"
-            id="text"
-            name="text"
-            class="form-control"
-            placeholder="enter comment"
-          />
-          <button type="submit" class="btn-primary">Comment!</button>
-        </form>
-      </div>
-      <div class="card-footer text-muted">
-        chirped at: {{chirps.date_created}}
-      </div>
+          <small>View {{chirps.comment|length}} Comments</small>
+        </a>
+
+        {%else%}
+        <small text-muted> No Comments</small>
+
+        {%endif%}
+      </p>
+      <!-- comment form -->
+      <form
+        method="POST"
+        class="input-group mt-3 mb-3"
+        action="/createcomment/{{chirps.id}}"
+      >
+        <input
+          type="text"
+          id="text"
+          name="text"
+          class="form-control"
+          placeholder="enter comment"
+        />
+        <button type="submit" class="btn-primary">Comment!</button>
+      </form>
     </div>
-
-    <br />
-    {%endfor%}
-  </div>
-  
-  <!-- create a chirp button -->
-  
-  <div align="center">
-    <a href="/createchirp"
-      ><button type="button" class="btn btn-primary btn-lg">
-        Create a CHIRP!
-      </button></a
-    >
-  </div>
-  
+    <div class="card-footer text-muted">
+      chirped at: {{chirps.date_created}}
+    </div>
   </div>
 
-{%endif%}
+  <br />
+  {%endfor%}
+</div>
 
-  {%endblock%}
+<!-- create a chirp button -->
+
+<div align="center">
+  <a href="/createchirp"
+    ><button type="button" class="btn btn-primary btn-lg">
+      Create a CHIRP!
+    </button></a
+  >
+</div>
+</div>
+
+{%endif%} {%endblock%}
+</div>
+</div> 

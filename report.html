@@ -39,12 +39,12 @@ code {
 </head>
 <body>
 <h1><u>Pylint report</u></h1>
-<small>Report generated on 2022-04-03 at 17:37:46 by <a href="https://github.com/drdv/pylint-report">pytest-report</a></small>
-<h2><span>Score:</span><span class="score"> 9.46 </span><span> / 10 </span></h2><ul><li>app (0)</li>
+<small>Report generated on 2022-07-03 at 16:20:05 by <a href="https://github.com/drdv/pylint-report">pytest-report</a></small>
+<h2><span>Score:</span><span class="score"> 9.64 </span><span> / 10 </span></h2><ul><li>app (0)</li>
 <li>website.auth (0)</li>
 <li><a href="#website.models">website.models</a> (3)</li>
 <li><a href="#website.views">website.views</a> (2)</li>
-<li><a href="#website.__init__">website.__init__</a> (4)</li>
+<li>website.__init__ (0)</li>
 </ul><br>
 <hr><h2><span>Module:</span><span id="website"> <code>website (3)</code> </span></h2><hr><table><tr>
 <td valign="top">
@@ -119,93 +119,6 @@ code {
       <td>convention</td>
       <td>create_app</td>
       <td>Import outside toplevel (models.User)</td>
-    </tr>
-  </tbody>
-</table>
-</section>
-<br>
-<hr><h2><span>Module:</span><span id="website.__init__"> <code>website.__init__ (4)</code> </span></h2><hr><table><tr>
-<td valign="top">
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: center;">
-      <th>symbol</th>
-      <th># msg</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>cyclic-import</td>
-      <td>4</td>
-    </tr>
-  </tbody>
-</table>
-</td>
-
-<td valign="top">
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: center;">
-      <th>type</th>
-      <th># msg</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>refactor</td>
-      <td>4</td>
-    </tr>
-  </tbody>
-</table>
-</td>
-</tr></table><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: center;">
-      <th></th>
-      <th>line</th>
-      <th>column</th>
-      <th>symbol</th>
-      <th>type</th>
-      <th>obj</th>
-      <th>message</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>0</td>
-      <td>cyclic-import</td>
-      <td>refactor</td>
-      <td></td>
-      <td>Cyclic import (website -&amp;gt; website.views -&amp;gt; website.models)</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>0</td>
-      <td>cyclic-import</td>
-      <td>refactor</td>
-      <td></td>
-      <td>Cyclic import (website -&amp;gt; website.auth)</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1</td>
-      <td>0</td>
-      <td>cyclic-import</td>
-      <td>refactor</td>
-      <td></td>
-      <td>Cyclic import (website -&amp;gt; website.views)</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1</td>
-      <td>0</td>
-      <td>cyclic-import</td>
-      <td>refactor</td>
-      <td></td>
-      <td>Cyclic import (website -&amp;gt; website.auth -&amp;gt; website.models)</td>
     </tr>
   </tbody>
 </table>

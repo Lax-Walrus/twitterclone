@@ -88,7 +88,7 @@ def logout():
 
 @authenticate.route("/signup", methods=["GET", "POST"])
 def signup():
-    """ creates user in datab"""
+    """creates user in database"""
     # if post method  grabs the user entered data from the signup.html form
     if request.method == 'POST':
         username = request.form.get("username")
@@ -144,8 +144,6 @@ def create_admin():
 
     admin = User(email="admin@admin.com", username="admin",
                  password=generate_password_hash("password", method='sha256'), isAdmin=True)
-    db.session.add(admin)
-    db.session.commit()
     db.session.add(admin)
     db.session.commit()
     flash("admin created", category="success")

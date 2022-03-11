@@ -160,7 +160,7 @@ def like(chirp_id):
         return jsonify({"error": "Post does not exist"}, 400)
 
     if thumbs_up:
-        db.session.delete(like)
+        db.session.delete(thumbs_up)
         db.session.commit()
 
     else:

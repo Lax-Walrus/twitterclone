@@ -16,7 +16,12 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "notsosecretkey"
     # has the app use the created database
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    if DB_NAME:
+        app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///test.db'
+
     db.init_app(app)
 
     # creates blue prints of the view and authenticate paths
